@@ -1,6 +1,6 @@
 {
   "name": "ethjs-provider-signer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple web3 standard provider object that signs raw transactions.",
   "main": "src/index.js",
   "scripts": {
