@@ -1,7 +1,7 @@
 {
-  "name": "ethjs-provider-http",
+  "name": "ethjs-provider-signer",
   "version": "0.0.1",
-  "description": "A simple Http provider that follows the web3 spec.",
+  "description": "A simple web3 standard provider object that signs raw transactions.",
   "main": "src/index.js",
   "scripts": {
     "start": "npm test",
@@ -17,12 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/ethjs/ethjs-provider-http.git"
+    "url": "git+ssh://git@github.com/ethjs/ethjs-provider-signer.git"
   },
   "dependencies": {
     "ethereumjs-tx": "1.1.4",
     "ethjs-util": "0.0.4",
-    "ethjs-provider-http": "0.0.1"
+    "ethjs-provider-signer": "0.0.1"
   },
   "devDependencies": {
     "web3": "0.17.0-beta",
@@ -56,9 +56,9 @@
   "author": "Nick Dodson <nick.dodson@consensys.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ethjs/ethjs-provider-http/issues"
+    "url": "https://github.com/ethjs/ethjs-provider-signer/issues"
   },
-  "homepage": "https://github.com/ethjs/ethjs-provider-http#readme",
+  "homepage": "https://github.com/ethjs/ethjs-provider-signer#readme",
   "babel": {
     "presets": [
       "es2015"
