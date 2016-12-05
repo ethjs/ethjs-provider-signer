@@ -38,15 +38,15 @@ Intakes a `provider` URL specified as a string, and an options object where the 
 **Parameters**
 
 -   `provider` **String** the URL path to your local Http RPC enabled Ethereum node (e.g. `http://localhost:8545`) or a service node system like [Infura.io](http://infura.io) (e.g. `http://ropsten.infura.io`).
--   `options` **Object** the options object where the `privateKey` method and `timeout` property is specified.
+-   `options` **Object** the options object where the `signTransaction` method and `timeout` property is specified.
 
 Example options **Object**:
 
 ```js
 const options = {
-  privateKey: (account, cb) => {
-    if (account) {
-      cb(null, '0x...privateKey...');
+  signTransaction: (rawTx, cb) => {
+    if (rawTx.from === '0x...') {
+      cb(null, SignerProvider.sign(rawTx, '0x...privateKey...'));
     } else {
       cb('some error');
     }
@@ -60,10 +60,9 @@ Result `SignerProvider` **Object**.
 ```js
 const SignerProvider = require('ethjs-provider-signer');
 const Eth = require('ethjs-query');
-const provider = new SignerProvider('http://ropsten.infura.io', {
-  privateKey: (account, cb) => cb(null, '0x...privateKey...'),
-});
-const eth = new Eth(provider);
+const eth = new Eth(new SignerProvider('http://ropsten.infura.io', {
+  signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0x...privateKey...')),
+}));
 
 eth.sendTransaction({
   from: '0x407d73d8a49eeb85d32cf465507dd71d507100c1',
@@ -73,6 +72,47 @@ eth.sendTransaction({
 
 // results null 0x... (transaction hash)
 ```
+
+### SignerProvider.sign
+
+[index.js:ethjs-provider-signer](../../../blob/master/src/index.js "Source code on GitHub")
+
+Intakes an Ethereum RPC standard raw transaction object and Ethereum standard private key as a hexified alphanumeric string. Outputs signed transaction data as a hex string.
+
+**Parameters**
+
+-   `rawTx` **Object** the raw transaction object (i.e. `{ from: '0x..', to: '0x..', data: '0x', gas: 300000 }`)
+-   `privateKey` **String** the options object where the `signTransaction` method and `timeout` property is specified.
+
+Result signed transaction data **String**
+
+```js
+const SignerProvider = require('ethjs-provider-signer');
+
+const signedHexData = SignerProvider.sign({
+  from: '0x407d73d8a49eeb85d32cf465507dd71d507100c1',
+  gas: 300000,
+  data: '0x',
+}, '0xd35c58355a1sc095c7074837467382924180748768s2258ef5f7fa384e6fcb3s');
+
+// result '0xbd685c98ec39490f50d15c67ba2a8e9b5b1d6d7601fca80b295e7d717446bd8b7127ea4871e996cdc8cae7690408b4e800f60ddac49d2ad34180e68f1da0aaf001';
+```
+
+## Browser Builds
+
+`ethjs` provides production distributions for all of its modules that are ready for use in the browser right away. Simply include either `dist/ethjs-provider-signer.js` or `dist/ethjs-provider-signer.min.js` directly into an HTML file to start using this module. Note, an `SignerProvider` object is made available globally.
+
+```html
+<script type="text/javascript" src="ethjs-provider-signer.min.js"></script>
+<script type="text/javascript">
+new SignerProvider(...);
+</script>
+```
+
+Note, even though `ethjs` should have transformed and polyfilled most of the requirements to run this module across most modern browsers. You may want to look at an additional polyfill for extra support.
+
+Use a polyfill service such as `Polyfill.io` to ensure complete cross-browser support:
+https://polyfill.io/
 
 ## Other Awesome Modules, Tools and Frameworks
 

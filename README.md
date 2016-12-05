@@ -51,7 +51,7 @@ npm install --save ethjs-provider-signer
 const SignerProvider = require('ethjs-provider-signer');
 const Eth = require('ethjs-query');
 const provider = new SignerProvider('http://ropsten.infura.io', {
-  privateKey: (account, cb) => cb(null, '0x...privateKey...'),
+  signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0x...privateKey...')),
 });
 const eth = new Eth(provider);
 
@@ -68,7 +68,11 @@ eth.sendTransaction({
 
 A simple wrapper module for `ethjs-provider-http` which allows you to sign sendTransaction payloads. It simply takes the sendTransaction data, signs it, and changes the payload method from `eth_sendTransaction` to `eth_sendRawTransaction`, then sends the payload.
 
-The `privateKey` method is called everytime a payload must be signed. It provides the account address in question. The return should be a single privateKey string.
+The `signTransaction` method is called everytime a payload must be signed. It provides the raw transaction data, a handy raw transaction signing method and a callback to be fired. The callback must return a single signed alphanumeric hex data payload of the signed raw transaction.
+
+The optionally required signing method `SignerProvider.sign` will sign the raw transaction with your specified private key.
+
+The provided `SignerProvider.sign` method intakes the `rawTx` transaction data and the `privateKey` hex for signing. It returns the hexified string data of the signed transaction.
 
 ## Contributing
 

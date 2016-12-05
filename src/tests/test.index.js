@@ -16,12 +16,13 @@ describe('SignerProvider', () => {
   describe('constructor', () => {
     it('should construct properly', (done) => {
       const provider = new SignerProvider('http://localhost:5001', {
-        privateKey: (account, cb) => cb(null, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33'),
+        signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33')),
       });
 
       assert.equal(typeof provider, 'object');
+      assert.equal(typeof SignerProvider.sign, 'function');
       assert.equal(typeof provider.options, 'object');
-      assert.equal(typeof provider.options.privateKey, 'function');
+      assert.equal(typeof provider.options.signTransaction, 'function');
       assert.equal(provider.timeout, 0);
 
       setTimeout(() => {
@@ -40,7 +41,7 @@ describe('SignerProvider', () => {
   describe('functionality', () => {
     it('should perform normally for calls', (done) => {
       const provider = new SignerProvider('http://localhost:5001', {
-        privateKey: (account, cb) => cb(null, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33'),
+        signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33')),
       });
       const eth = new Eth(provider);
 
@@ -60,7 +61,7 @@ describe('SignerProvider', () => {
 
     it('should reconstruct sendTransaction as sendRawTransaction', (done) => {
       const provider = new SignerProvider('http://localhost:5001', {
-        privateKey: (account, cb) => cb(null, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33'),
+        signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33')),
       });
       const eth = new Eth(provider);
 
@@ -72,6 +73,7 @@ describe('SignerProvider', () => {
           from: accounts[0],
           to: '0xc55c58355a32c095c70748374673829241807487',
           data: '0x',
+          value: 5000,
           gas: 300000,
         }, (txError, txHash) => {
           assert.equal(txError, null);
@@ -81,6 +83,7 @@ describe('SignerProvider', () => {
             eth.getBalance('0xc55c58355a32c095c70748374673829241807487')
             .then((balanceResult) => {
               assert.equal(typeof balanceResult, 'object');
+              assert.equal(balanceResult.toNumber(10), 5000);
 
               done();
             });
@@ -91,7 +94,7 @@ describe('SignerProvider', () => {
 
     it('should throw an error when key is invalid', (done) => {
       const provider = new SignerProvider('http://localhost:5001', {
-        privateKey: (account, cb) => cb(null, '0xc23c58355132c025c707483746738294180748768422589f5f75a384e6f3b33'),
+        signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0xc55c58355a32c095c70748s746738d92d180748768422589f5f75a384e6f3b33')),
       });
       const eth = new Eth(provider);
 
@@ -103,6 +106,7 @@ describe('SignerProvider', () => {
           from: accounts[0],
           to: '0xc55c58355a32c095c70748374673829241807487',
           data: '0x',
+          value: 5000,
           gas: 300000,
         }).catch((txError) => {
           assert.equal(typeof txError, 'object');
@@ -114,7 +118,7 @@ describe('SignerProvider', () => {
 
     it('should throw an error when key error is provided', (done) => {
       const provider = new SignerProvider('http://localhost:5001', {
-        privateKey: (account, cb) => cb(new Error('account does not have permission')),
+        signTransaction: (rawTx, cb) => cb(new Error('account does not have permission')),
       });
       const eth = new Eth(provider);
 
