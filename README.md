@@ -51,7 +51,7 @@ npm install --save ethjs-provider-signer
 const SignerProvider = require('ethjs-provider-signer');
 const sign = require('ethjs-signer').sign;
 const Eth = require('ethjs-query');
-const provider = new SignerProvider('http://ropsten.infura.io', {
+const provider = new SignerProvider('https://ropsten.infura.io', {
   signTransaction: (rawTx, cb) => cb(null, sign(rawTx, '0x...privateKey...')),
 });
 const eth = new Eth(provider);
