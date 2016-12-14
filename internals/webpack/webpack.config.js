@@ -6,7 +6,6 @@ var filename = 'ethjs-provider-signer';      // eslint-disable-line
 var library = 'SignerProvider';          // eslint-disable-line
 var config = {                    // eslint-disable-line
   entry: [
-    'babel-polyfill',
     './lib/index.js',
   ],
   module: {
@@ -14,7 +13,7 @@ var config = {                    // eslint-disable-line
       {
         test: /\.js$/,
         loaders: ['babel-loader'],
-        include: /src|node_modules\/ethereumjs-tx/,
+        include: /src/,
       },
       {
         test: /\.json$/,

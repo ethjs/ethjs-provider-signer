@@ -4,6 +4,7 @@ const SignerProvider = require('../index.js'); // eslint-disable-line
 const Eth = require('ethjs-query'); // eslint-disable-line
 const Web3 = require('web3'); // eslint-disable-line
 const TestRPC = require('ethereumjs-testrpc');
+const sign = require('ethjs-signer').sign;
 const server = TestRPC.server({
   accounts: [{
     secretKey: '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33',
@@ -16,11 +17,11 @@ describe('SignerProvider', () => {
   describe('constructor', () => {
     it('should construct properly', (done) => {
       const provider = new SignerProvider('http://localhost:5001', {
-        signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33')),
+        signTransaction: (rawTx, cb) => cb(null, sign(rawTx, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33')),
       });
 
       assert.equal(typeof provider, 'object');
-      assert.equal(typeof SignerProvider.sign, 'function');
+      assert.equal(typeof sign, 'function');
       assert.equal(typeof provider.options, 'object');
       assert.equal(typeof provider.options.signTransaction, 'function');
       assert.equal(provider.timeout, 0);
@@ -41,7 +42,7 @@ describe('SignerProvider', () => {
   describe('functionality', () => {
     it('should perform normally for calls', (done) => {
       const provider = new SignerProvider('http://localhost:5001', {
-        signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33')),
+        signTransaction: (rawTx, cb) => cb(null, sign(rawTx, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33')),
       });
       const eth = new Eth(provider);
 
@@ -61,7 +62,7 @@ describe('SignerProvider', () => {
 
     it('should reconstruct sendTransaction as sendRawTransaction', (done) => {
       const provider = new SignerProvider('http://localhost:5001', {
-        signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33')),
+        signTransaction: (rawTx, cb) => cb(null, sign(rawTx, '0xc55c58355a32c095c7074837467382924180748768422589f5f75a384e6f3b33')),
       });
       const eth = new Eth(provider);
 
@@ -94,7 +95,7 @@ describe('SignerProvider', () => {
 
     it('should throw an error when key is invalid', (done) => {
       const provider = new SignerProvider('http://localhost:5001', {
-        signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0xc55c58355a32c095c70748s746738d92d180748768422589f5f75a384e6f3b33')),
+        signTransaction: (rawTx, cb) => cb(null, sign(rawTx, '0xc55c58355a32c095c70748s746738d92d180748768422589f5f75a384e6f3b33')),
       });
       const eth = new Eth(provider);
 

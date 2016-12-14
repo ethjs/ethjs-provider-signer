@@ -76,9 +76,9 @@ included in the project:
 
    ```bash
    # Clone your fork of the repo into the current directory
-   git clone https://github.com/<your-username>/default.git
+   git clone https://github.com/<your-username>/ethjs-provider-signer.git
    # Navigate to the newly cloned directory
-   cd default
+   cd ethjs-provider-signer
    # Assign the original repo to a remote called "upstream"
    git remote add upstream https://github.com/ethjs/ethjs-provider-http.git
    ```
@@ -113,7 +113,7 @@ included in the project:
 7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/)
     with a clear title and description.
 
-**DESIGN NOTE**: default follows the UNIX programming philosophy. Please consider this before contributing, keep your commits/modules concise and to the point.
+**DESIGN NOTE**: ethjs-provider-signer follows the UNIX programming philosophy. Please consider this before contributing, keep your commits/modules concise and to the point.
 
 Read more here:
 http://www.catb.org/esr/writings/taoup/html/ch01s06.html

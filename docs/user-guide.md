@@ -12,9 +12,10 @@ npm install --save ethjs-provider-signer
 
 ```js
 const SignerProvider = require('ethjs-provider-signer');
+const sign = require('ethjs-signer').sign;
 const Eth = require('ethjs-query');
-const provider = new SignerProvider('http://ropsten.infura.io', {
-  signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0x...privateKey...')),
+const provider = new SignerProvider('https://ropsten.infura.io', {
+  signTransaction: (rawTx, cb) => cb(null, sign(rawTx, '0x...privateKey...')),
 });
 const eth = new Eth(provider);
 
@@ -46,7 +47,7 @@ Example options **Object**:
 const options = {
   signTransaction: (rawTx, cb) => {
     if (rawTx.from === '0x...') {
-      cb(null, SignerProvider.sign(rawTx, '0x...privateKey...'));
+      cb(null, sign(rawTx, '0x...privateKey...'));
     } else {
       cb('some error');
     }
@@ -73,31 +74,6 @@ eth.sendTransaction({
 // results null 0x... (transaction hash)
 ```
 
-### SignerProvider.sign
-
-[index.js:ethjs-provider-signer](../../../blob/master/src/index.js "Source code on GitHub")
-
-Intakes an Ethereum RPC standard raw transaction object and Ethereum standard private key as a hexified alphanumeric string. Outputs signed transaction data as a hex string.
-
-**Parameters**
-
--   `rawTx` **Object** the raw transaction object (i.e. `{ from: '0x..', to: '0x..', data: '0x', gas: 300000 }`)
--   `privateKey` **String** the options object where the `signTransaction` method and `timeout` property is specified.
-
-Result signed transaction data **String**
-
-```js
-const SignerProvider = require('ethjs-provider-signer');
-
-const signedHexData = SignerProvider.sign({
-  from: '0x407d73d8a49eeb85d32cf465507dd71d507100c1',
-  gas: 300000,
-  data: '0x',
-}, '0xd35c58355a1sc095c7074837467382924180748768s2258ef5f7fa384e6fcb3s');
-
-// result '0xbd685c98ec39490f50d15c67ba2a8e9b5b1d6d7601fca80b295e7d717446bd8b7127ea4871e996cdc8cae7690408b4e800f60ddac49d2ad34180e68f1da0aaf001';
-```
-
 ## Browser Builds
 
 `ethjs` provides production distributions for all of its modules that are ready for use in the browser right away. Simply include either `dist/ethjs-provider-signer.js` or `dist/ethjs-provider-signer.min.js` directly into an HTML file to start using this module. Note, an `SignerProvider` object is made available globally.
@@ -113,6 +89,28 @@ Note, even though `ethjs` should have transformed and polyfilled most of the req
 
 Use a polyfill service such as `Polyfill.io` to ensure complete cross-browser support:
 https://polyfill.io/
+
+## Webpack Figures
+
+```
+Hash: f8ea69e4b882307e0d88                                                         
+Version: webpack 2.1.0-beta.15
+Time: 144ms
+                       Asset     Size  Chunks             Chunk Names
+    ethjs-provider-signer.js  7.99 kB       0  [emitted]  main
+ethjs-provider-signer.js.map  9.27 kB       0  [emitted]  main
+   [0] ./lib/index.js 2.45 kB {0} [built]
+   [3] multi main 28 bytes {0} [built]
+    + 2 hidden modules
+
+                       Asset     Size  Chunks             Chunk Names
+ethjs-provider-signer.min.js  3.42 kB       0  [emitted]  main
+   [0] ./lib/index.js 2.45 kB {0} [built]
+       [3] 1ms -> factory:16ms building:38ms = 55ms
+   [3] multi main 28 bytes {0} [built]
+       factory:0ms building:1ms = 1ms
+    + 2 hidden modules
+```
 
 ## Other Awesome Modules, Tools and Frameworks
 

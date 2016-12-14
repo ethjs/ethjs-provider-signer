@@ -90,6 +90,13 @@ After build staging it is the `lib` folder which actually gets published to NPM.
 
 This is a requirement to run, test, lint and build this module.
 
+## Webpack
+
+`ethjs` uses webpack across all its browser focused repos. Webpack is used to package down project files into distribution builds for the browser. You can see the builds it produces by going to the [dist](dist) folder.
+
+Read more about webpack here:
+https://github.com/webpack/docs
+
 ## Changelog
 
 All relevant changes are notated in the `CHANGELOG.md` file, moniter this file for changes to this repository.

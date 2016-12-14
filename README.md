@@ -49,9 +49,10 @@ npm install --save ethjs-provider-signer
 
 ```js
 const SignerProvider = require('ethjs-provider-signer');
+const sign = require('ethjs-signer').sign;
 const Eth = require('ethjs-query');
 const provider = new SignerProvider('http://ropsten.infura.io', {
-  signTransaction: (rawTx, cb) => cb(null, SignerProvider.sign(rawTx, '0x...privateKey...')),
+  signTransaction: (rawTx, cb) => cb(null, sign(rawTx, '0x...privateKey...')),
 });
 const eth = new Eth(provider);
 
@@ -70,13 +71,11 @@ A simple wrapper module for `ethjs-provider-http` which allows you to sign sendT
 
 The `signTransaction` method is called everytime a payload must be signed. It provides the raw transaction data, a handy raw transaction signing method and a callback to be fired. The callback must return a single signed alphanumeric hex data payload of the signed raw transaction.
 
-The optionally required signing method `SignerProvider.sign` will sign the raw transaction with your specified private key.
-
-The provided `SignerProvider.sign` method intakes the `rawTx` transaction data and the `privateKey` hex for signing. It returns the hexified string data of the signed transaction.
+`ethjs-provider-signer` works well with `ethjs-signer`, a simple module for signing raw transactions. You may also bring your own signer from packages like `ethereumjs-signer`.
 
 ## Contributing
 
-Please help better the ecosystem by submitting issues and pull requests to default. We need all the help we can get to build the absolute best linting standards and utilities. We follow the AirBNB linting standard and the unix philosophy.
+Please help better the ecosystem by submitting issues and pull requests to `ethjs-provider-signer`. We need all the help we can get to build the absolute best linting standards and utilities. We follow the AirBNB linting standard and the unix philosophy.
 
 ## Guides
 
