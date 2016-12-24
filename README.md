@@ -53,6 +53,7 @@ const sign = require('ethjs-signer').sign;
 const Eth = require('ethjs-query');
 const provider = new SignerProvider('https://ropsten.infura.io', {
   signTransaction: (rawTx, cb) => cb(null, sign(rawTx, '0x...privateKey...')),
+  accounts: (cb) => cb(null, ['0x407d73d8a49eeb85d32cf465507dd71d507100c1']),
 });
 const eth = new Eth(provider);
 
@@ -72,6 +73,8 @@ A simple wrapper module for `ethjs-provider-http` which allows you to sign sendT
 The `signTransaction` method is called everytime a payload must be signed. It provides the raw transaction data, a handy raw transaction signing method and a callback to be fired. The callback must return a single signed alphanumeric hex data payload of the signed raw transaction.
 
 `ethjs-provider-signer` works well with `ethjs-signer`, a simple module for signing raw transactions. You may also bring your own signer from packages like `ethereumjs-signer`.
+
+Note, the `nonce` and `gasPrice` get auto-filled by default (by using the `getTransactionCount` and `gasPrice` RPC calls). However, if these properties are specified in the raw tx object, the raw tx object props will override the default `nonce` and `gasPrice` values provided.
 
 ## Contributing
 

@@ -1,3 +1,9 @@
+# 0.1.3 -- more features
+
+1. Auto nonce, gasPrice filling
+2. More test coverage
+3. Accounts provider
+
 # 0.1.2 -- remove deps
 
 1. Remove `ethereumjs-tx` and `ethereumjs-util`
