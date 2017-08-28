@@ -79,7 +79,9 @@ SignerProvider.prototype.sendAsync = function (payload, callback) { // eslint-di
             // send payload
             self.provider.sendAsync(outputPayload, callback);
           } else {
-            callback(new Error(`[ethjs-provider-signer] while signing your transaction payload: ${JSON.stringify(keyError)}`), null);
+            // Return all the errors as is because they are application specific
+            console.error('[ethjs-provider-signer] while signing your transaction payload:', keyError);
+            callback(keyError, null);
           }
         });
       });
