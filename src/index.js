@@ -13,8 +13,8 @@ module.exports = SignerProvider;
  */
 function SignerProvider(path, options) {
   if (!(this instanceof SignerProvider)) { throw new Error('[ethjs-provider-signer] the SignerProvider instance requires the "new" flag in order to function normally (e.g. `const eth = new Eth(new SignerProvider(...));`).'); }
-  if (typeof options !== 'object') { throw new Error(`[ethjs-provider-signer] the SignerProvider requires an options object be provided with the 'privateKey' property specified, you provided type ${typeof options}.`); }
-  if (typeof options.signTransaction !== 'function') { throw new Error(`[ethjs-provider-signer] the SignerProvider requires an options object be provided with the 'signTransaction' property specified, you provided type ${typeof options.privateKey} (e.g. 'const eth = new Eth(new SignerProvider("http://ropsten.infura.io", { privateKey: (account, cb) => cb(null, 'some private key') }));').`); }
+  if (typeof options !== 'object') { throw new Error(`[ethjs-provider-signer] the SignerProvider requires an options object be provided with the 'signTransaction' property specified, you provided type ${typeof options}.`); }
+  if (typeof options.signTransaction !== 'function') { throw new Error(`[ethjs-provider-signer] the SignerProvider requires an options object be provided with the 'signTransaction' property specified, you provided type ${typeof options.signTransaction} (e.g. 'const eth = new Eth(new SignerProvider("http://ropsten.infura.io", { signTransaction: (account, cb) => cb(null, 'some private key') }));').`); }
 
   const self = this;
   self.options = Object.assign({
